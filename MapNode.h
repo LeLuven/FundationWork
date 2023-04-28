@@ -11,7 +11,23 @@ struct MapNode {
     MapNode* west;
 
     MapNode(int id,vector<vector<int>> map)
-        :id(id),layout(map), north(nullptr), east(nullptr), south(nullptr), west(nullptr) {}
+        :id(id),layout(map), north(nullptr), east(nullptr), south(nullptr), west(nullptr) {};
+
+    /*
+    MapNode* findConnectedMap(Player& player, MapNode& currentMap) {
+        if () {
+            return currentMap.north;
+        } else if () {
+            return currentMap.east;
+        } else if () {
+            return currentMap.south;
+        } else if () {
+            return currentMap.west;
+        }
+        return &currentMap;
+    }
+    */
+
 };
 
 

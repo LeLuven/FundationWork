@@ -1,8 +1,13 @@
-//
-// Created by Jonas Luven on 27.04.23.
-//
-
 #ifndef TESTGAME_GAMESTATE_H
 #define TESTGAME_GAMESTATE_H
+#include "includes.h"
+
+class GameState {
+public:
+    MapNode* currentMap;
+    //Player player;
+
+    GameState() : currentMap(nullptr) {}
+};
 
 #endif //TESTGAME_GAMESTATE_H

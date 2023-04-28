@@ -16,15 +16,15 @@ enum TileType{
 struct Tile {
     SDL_Texture * texture;
     SDL_Rect srcRect;
-    SDL_Rect dstRect;
+    //SDL_Rect dstRect;
     TileType tileType;
     bool isSolid;
     int numFrames;
     int frameDuration;
 
 
-    Tile(SDL_Texture* texture, const SDL_Rect& srcRect, const SDL_Rect& dstRect, TileType tileType, bool isSolid, int numFrames = 1, int frameDuration = 0)
-            : texture(texture), srcRect(srcRect), dstRect(dstRect), tileType(tileType), isSolid(isSolid),numFrames(numFrames), frameDuration(frameDuration) {}
+    Tile(SDL_Texture* texture, const SDL_Rect& srcRect, TileType tileType, bool isSolid, int numFrames = 1, int frameDuration = 0)
+            : texture(texture), srcRect(srcRect), tileType(tileType), isSolid(isSolid),numFrames(numFrames), frameDuration(frameDuration) {}
 };
 
 

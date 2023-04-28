@@ -19,5 +19,8 @@ constexpr int MAPSIZE = 20;
 
 #include "Tile.h"
 #include "MapNode.h"
+#include "GameState.h"
+#include "Player.h"
+#include "mapRenderer.h"
 
 #endif //TESTGAME_INCLUDES_H

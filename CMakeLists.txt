@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMAKE")
 # Hier müssen alle Files rein ggf.
-set(SOURCE_FILES main.cpp Tile.h includes.h MapNode.h GameState.h)
+set(SOURCE_FILES main.cpp Tile.h includes.h MapNode.h GameState.h Player.h mapRenderer.h)
 
 Message("")
 Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )
