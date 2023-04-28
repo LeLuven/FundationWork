@@ -138,7 +138,7 @@ int main() {
             // Wall
             {spritesheet, {32, 6 * 32, TILESIZE, TILESIZE},  WALL,     true},
             // Teleport
-            {spritesheet, {0,  9 * 32, TILESIZE, TILESIZE},  TELEPORT, false, 4, 1}
+            {spritesheet, {0,  9 * 32, TILESIZE, TILESIZE},  TELEPORT, false, 4, 10}
     };
 
     vector<MapNode> mapTest = {map0,map1,map2,map3,map4,map5,map6};
@@ -146,20 +146,36 @@ int main() {
     GameState gameState;
     gameState.currentMap = &mapTest[0];
     int inc = 0;
+    int cnt = 0;
     SDL_Event e;
     bool quit = false;
+    const int FRAME_RATE = 60;
+    const int FRAME_DELAY = 1000 / FRAME_RATE;
+    Uint32 lastFrameTime = SDL_GetTicks();
+
+
     while (!false) {
         while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
+            if (e.type == SDL_QUIT || e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
                 quit = true;
             } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN){
                 cout << "change" << endl;
-                gameState.currentMap = &mapTest[++inc];
+                gameState.currentMap = &mapTest[++inc%7];
             }
         }
+
+        Uint32 currentFrameTime = SDL_GetTicks();
+        Uint32 elapsedFrameTime = currentFrameTime - lastFrameTime;
+        if (elapsedFrameTime < FRAME_DELAY) {
+            SDL_Delay(FRAME_DELAY - elapsedFrameTime);
+            elapsedFrameTime = FRAME_DELAY;
+        }
         SDL_RenderClear(renderer);
+        updateAnimationFrame(tiles[TELEPORT],cnt++);
         renderMap(renderer,spritesheet,*gameState.currentMap,tiles);
         SDL_RenderPresent(renderer);
+
+        lastFrameTime = currentFrameTime;
     }
     SDL_DestroyTexture(spritesheet);
     SDL_DestroyRenderer(renderer);

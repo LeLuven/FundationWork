@@ -30,5 +30,13 @@ void renderMap(SDL_Renderer* renderer, SDL_Texture* tileset, MapNode& map, const
     }
 }
 
+void updateAnimationFrame(Tile& tile, int elapsedTime) {
+    if (tile.numFrames > 1) {
+        int currentFrame = (elapsedTime / tile.frameDuration) % tile.numFrames;
+        tile.srcRect.x = tile.srcRect.w * currentFrame;
+    }
+}
+
+
 
 #endif //TESTGAME_MAPRENDERER_H
