@@ -6,7 +6,7 @@ int main() {
 
     SDL_Window *window = SDL_CreateWindow("GameTest", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, S_WIDTH,
                                           S_HEIGHT,
-                                          SDL_WINDOW_SHOWN);
+                                          SDL_WINDOW_FULLSCREEN);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     SDL_Texture *spritesheet = IMG_LoadTexture(renderer, "../../bd.png");
@@ -136,12 +136,12 @@ int main() {
             // Ground
             {spritesheet, {32, 7 * 32, TILESIZE, TILESIZE}, GROUND,   false},
             // Wall
-            {spritesheet, {32, 6 * 32, TILESIZE, TILESIZE},  WALL,     true},
+            {spritesheet, {32, 6 * 32, TILESIZE, TILESIZE}, WALL,     true},
             // Teleport
-            {spritesheet, {0,  9 * 32, TILESIZE, TILESIZE},  TELEPORT, false, 4, 10}
+            {spritesheet, {0,  9 * 32, TILESIZE, TILESIZE}, TELEPORT, false, 4, 10}
     };
 
-    vector<MapNode> mapTest = {map0,map1,map2,map3,map4,map5,map6};
+    vector <MapNode> mapTest = {map0, map1, map2, map3, map4, map5, map6};
 
     GameState gameState;
     gameState.currentMap = &mapTest[0];
@@ -153,14 +153,21 @@ int main() {
     const int FRAME_DELAY = 1000 / FRAME_RATE;
     Uint32 lastFrameTime = SDL_GetTicks();
 
+    SDL_Rect playerRect = {100, 100, 32, 32};
+    Player player = {spritesheet, {0, 32, 32, 32}, playerRect, 10};
+    gameState.player = &player;
+
 
     while (!false) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT || e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
                 quit = true;
-            } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN){
+                goto clean;
+            } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) {
                 cout << "change" << endl;
-                gameState.currentMap = &mapTest[++inc%7];
+                gameState.currentMap = &mapTest[++inc % 7];
+            } else if (e.type == SDL_KEYDOWN) {
+                   player.handleMovement(e);
             }
         }
 
@@ -171,12 +178,16 @@ int main() {
             elapsedFrameTime = FRAME_DELAY;
         }
         SDL_RenderClear(renderer);
-        updateAnimationFrame(tiles[TELEPORT],cnt++);
-        renderMap(renderer,spritesheet,*gameState.currentMap,tiles);
+        updateAnimationFrame(tiles[TELEPORT], cnt++);
+        renderMap(renderer, spritesheet, *gameState.currentMap, tiles);
+        player.updateAnimationFrame(cnt);
+        player.render(renderer);
         SDL_RenderPresent(renderer);
+
 
         lastFrameTime = currentFrameTime;
     }
+    clean:
     SDL_DestroyTexture(spritesheet);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

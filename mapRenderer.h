@@ -16,15 +16,13 @@ void renderMap(SDL_Renderer* renderer, SDL_Texture* tileset, MapNode& map, const
             int tileType = map.layout[y][x];
             const Tile& tile = tiles[tileType];
 
-            // Calculate the destination rectangle of the tile based on its position in the map
             SDL_Rect dstRect = {
-                    x * TILE_SIZE, // x position of the tile in pixels
-                    y * TILE_SIZE, // y position of the tile in pixels
-                    TILE_SIZE,     // width of the tile in pixels
-                    TILE_SIZE      // height of the tile in pixels
+                    x * TILE_SIZE,
+                    y * TILE_SIZE,
+                    TILE_SIZE,
+                    TILE_SIZE
             };
 
-            // Render the tile using the calculated destination rectangle
             renderTile(renderer, tileset, tile.srcRect, dstRect);
         }
     }

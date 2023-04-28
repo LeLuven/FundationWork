@@ -3,10 +3,11 @@
 
 using namespace std;
 
-constexpr int S_WIDTH = 1000;
-constexpr int S_HEIGHT = 600;
+constexpr int S_WIDTH = 1280;
+constexpr int S_HEIGHT = 720;
 constexpr int TILESIZE = 32;
 constexpr int MAPSIZE = 20;
+
 
 #include <SDL.h>
 #include <SDL_image.h>
