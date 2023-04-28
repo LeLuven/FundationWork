@@ -16,7 +16,6 @@ enum TileType{
 struct Tile {
     SDL_Texture * texture;
     SDL_Rect srcRect;
-    //SDL_Rect dstRect;
     TileType tileType;
     bool isSolid;
     int numFrames;

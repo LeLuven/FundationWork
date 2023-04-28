@@ -153,7 +153,7 @@ int main() {
     const int FRAME_DELAY = 1000 / FRAME_RATE;
     Uint32 lastFrameTime = SDL_GetTicks();
 
-    SDL_Rect playerRect = {100, 100, 32, 32};
+    SDL_Rect playerRect = {4*32, 4*32, 32, 32};
     Player player = {spritesheet, {0, 32, 32, 32}, playerRect, 10};
     gameState.player = &player;
 
