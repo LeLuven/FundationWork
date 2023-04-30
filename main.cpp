@@ -1,4 +1,5 @@
 #include "includes.h"
+#include "MapNode.h"
 
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
@@ -134,11 +135,13 @@ int main() {
      */
     std::vector<Tile> tiles = {
             // Ground
-            {spritesheet, {32, 7 * 32, TILESIZE, TILESIZE}, GROUND,   false},
+            {spritesheet, {32,     7 * 32, TILESIZE, TILESIZE}, GROUND,   false},
             // Wall
-            {spritesheet, {32, 6 * 32, TILESIZE, TILESIZE}, WALL,     true},
+            {spritesheet, {32,     6 * 32, TILESIZE, TILESIZE}, WALL,     true},
             // Teleport
-            {spritesheet, {0,  9 * 32, TILESIZE, TILESIZE}, TELEPORT, false, 4, 10}
+            {spritesheet, {0,      9 * 32, TILESIZE, TILESIZE}, TELEPORT, false, 4, 10},
+            // 0 Block
+            {spritesheet, {8 * 32, 0,      TILESIZE, TILESIZE}, NUMBER,   false}
     };
 
     vector <MapNode> mapTest = {map0, map1, map2, map3, map4, map5, map6};
@@ -153,7 +156,7 @@ int main() {
     const int FRAME_DELAY = 1000 / FRAME_RATE;
     Uint32 lastFrameTime = SDL_GetTicks();
 
-    SDL_Rect playerRect = {4*32, 4*32, 32, 32};
+    SDL_Rect playerRect = {4 * 32, 4 * 32, 32, 32};
     Player player = {spritesheet, {0, 32, 32, 32}, playerRect, 10};
     gameState.player = &player;
 
@@ -166,8 +169,9 @@ int main() {
             } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) {
                 cout << "change" << endl;
                 gameState.currentMap = &mapTest[++inc % 7];
-            } else if (e.type == SDL_KEYDOWN) {
-                   player.handleMovement(e);
+            } else {
+                player.handleMovement(e, gameState.currentMap->layout,tiles);
+                gameState.currentMap = MapNode::findMap(*gameState.player, *gameState.currentMap);
             }
         }
 
@@ -182,6 +186,9 @@ int main() {
         renderMap(renderer, spritesheet, *gameState.currentMap, tiles);
         player.updateAnimationFrame(cnt);
         player.render(renderer);
+        renderLevelNum(renderer,spritesheet,gameState,tiles[NUMBER]);
+
+
         SDL_RenderPresent(renderer);
 
 

@@ -10,7 +10,8 @@
 enum TileType{
     GROUND = 0,
     WALL = 1,
-    TELEPORT = 2
+    TELEPORT = 2,
+    NUMBER = 3
 };
 
 struct Tile {

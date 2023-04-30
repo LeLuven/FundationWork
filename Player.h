@@ -17,6 +17,7 @@ public:
     int currentFrame;
     int frameDuration;
     Direction dir = Right;
+    int speed = 32;
 
     Player(SDL_Texture* texture, const SDL_Rect& srcRect, const SDL_Rect& dstRect, int frameDuration = 0)
             : texture(texture), srcRect(srcRect), dstRect(dstRect), currentFrame(0), frameDuration(frameDuration) {}
@@ -39,26 +40,46 @@ public:
         SDL_RenderCopy(renderer, texture, &currentSrcRect, &dstRect);
     }
 
-    void handleMovement(SDL_Event e){
-        switch (e.key.keysym.sym) {
-            case SDLK_a:
-                dir = Left;
-                dstRect.x -= 32;
-                break;
-            case SDLK_d:
-                dir = Right;
-                dstRect.x += 32;
-                break;
-            case SDLK_w:
-                dstRect.y -= 32;
-                break;
-            case SDLK_s:
-                dstRect.y += 32;
-                break;
+    void handleMovement(SDL_Event e, const std::vector<std::vector<int>>& map, const std::vector<Tile>& tiles) {
+        int newX = dstRect.x;
+        int newY = dstRect.y;
+        if(e.type == SDL_KEYDOWN){
+            switch (e.key.keysym.sym) {
+                case SDLK_UP:
+                case SDLK_w:
+                    newY -= speed;
+                    break;
+                case SDLK_DOWN:
+                case SDLK_s:
+                    newY += speed;
+                    break;
+                case SDLK_LEFT:
+                case SDLK_a:
+                    newX -= speed;
+                    dir = Direction::Left;
+                    break;
+                case SDLK_RIGHT:
+                case SDLK_d:
+                    newX += speed;
+                    dir = Direction::Right;
+                    break;
+            }
+        }
+
+        int mapWidth = map[0].size();
+        int mapHeight = map.size();
+        int playerTileX = newX / 32;
+        int playerTileY = newY / 32;
+        if (playerTileX >= 0 && playerTileX < mapWidth && playerTileY >= 0 && playerTileY < mapHeight) {
+            int tileType = map[playerTileY][playerTileX];
+            const Tile& tile = tiles[tileType];
+            if (!tile.isSolid) {
+                dstRect.x = newX;
+                dstRect.y = newY;
+            }
         }
     }
 
-    // Other player-related methods, such as input handling and physics updates
-    // ...
+
 };
 #endif //TESTGAME_PLAYER_H

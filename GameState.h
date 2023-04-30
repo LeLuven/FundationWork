@@ -2,6 +2,7 @@
 #define TESTGAME_GAMESTATE_H
 #include "includes.h"
 #include "Player.h"
+#include "MapNode.h"
 
 class GameState {
 public:

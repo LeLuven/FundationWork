@@ -1,6 +1,7 @@
 #ifndef TESTGAME_MAPRENDERER_H
 #define TESTGAME_MAPRENDERER_H
 #include "includes.h"
+#include "MapNode.h"
 
 void renderTile(SDL_Renderer* renderer, SDL_Texture* tileset, const SDL_Rect& srcRect, const SDL_Rect& dstRect) {
     SDL_RenderCopy(renderer, tileset, &srcRect, &dstRect);
@@ -33,6 +34,13 @@ void updateAnimationFrame(Tile& tile, int elapsedTime) {
         int currentFrame = (elapsedTime / tile.frameDuration) % tile.numFrames;
         tile.srcRect.x = tile.srcRect.w * currentFrame;
     }
+}
+
+void renderLevelNum(SDL_Renderer* renderer, SDL_Texture* tileset, GameState& game, const Tile& tile){
+    SDL_Rect dR{0, 0, 32, 32};
+    SDL_Rect sR = tile.srcRect;
+    sR.y = game.currentMap->id * 32;
+    SDL_RenderCopy(renderer, tileset,&sR, &dR);
 }
 
 
