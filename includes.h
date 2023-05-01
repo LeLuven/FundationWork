@@ -13,15 +13,18 @@ constexpr int MAPSIZE = 20;
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include <memory>
+#include <cmath>
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <map>
 
-#include "Tile.h"
 #include "GameState.h"
-#include "Player.h"
-#include "mapRenderer.h"
+#include "Gun.h"
 #include "MapNode.h"
+#include "mapRenderer.h"
+#include "Player.h"
+#include "Tile.h"
 
 #endif //TESTGAME_INCLUDES_H
